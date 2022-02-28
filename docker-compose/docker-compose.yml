@@ -1,0 +1,21 @@
+version: '3.1'
+
+services:
+
+  mongo:
+    container_name: mongo-ex
+    image: mongo:latest
+    network_mode: host
+    ports:
+      - "27017:27017"
+
+  pyapp:
+    container_name: python-app
+    image: python-ex-img:latest
+    network_mode: host
+    ports:
+      - "5000:5000"
+
+
+
+
