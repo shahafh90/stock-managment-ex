@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3'
 
 services:
 
@@ -17,7 +17,6 @@ services:
 #      - "5000:5000"
 
   web:
-    container_name: efk-httpd
     image: httpd
     ports:
       - "80:80"
@@ -30,7 +29,6 @@ services:
         tag: httpd.access
 
   fluentd:
-    container_name: efk-fluentd
     build: ./fluentd
     volumes:
       - ./fluentd/conf:/fluentd/etc
@@ -41,19 +39,20 @@ services:
       - "24224:24224/udp"
 
   elasticsearch:
-    container_name: efk-elastic
-    image: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.1
+    container_name: elasticsearch
+    environment:
+      - "discovery.type=single-node"
     expose:
-      - 9200
+      - "9200"
     ports:
       - "9200:9200"
 
   kibana:
-    container_name: efk-kibana
-    image: kibana
+    image: docker.elastic.co/kibana/kibana:7.13.1
     links:
       - "elasticsearch"
     ports:
-    - "5601:5601"
+      - "5601:5601"
 
 
