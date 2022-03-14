@@ -1,58 +1,18 @@
-version: '3'
+version: '3.3'
 
 services:
 
-#  mongo:
-#    container_name: mongo-ex
-#    image: mongo:latest
-#    network_mode: host
-#    ports:
-#      - "27017:27017"
-#
-#  pyapp:
-#    container_name: python-app
-#    image: python-ex-img:latest
-#    network_mode: host
-#    ports:
-#      - "5000:5000"
-
-  web:
-    image: httpd
+  mongo:
+    container_name: mongo-ex
+    image: mongo:latest
+    network_mode: host
     ports:
-      - "80:80"
-    links:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
-        tag: httpd.access
+      - "27017:27017"
 
-  fluentd:
-    build: ./fluentd
-    volumes:
-      - ./fluentd/conf:/fluentd/etc
-    links:
-      - "elasticsearch"
+  pyapp:
+    container_name: python-app
+    image: python-ex-img:latest
+    network_mode: host
     ports:
-      - "24224:24224"
-      - "24224:24224/udp"
-
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.1
-    container_name: elasticsearch
-    environment:
-      - "discovery.type=single-node"
-    expose:
-      - "9200"
-    ports:
-      - "9200:9200"
-
-  kibana:
-    image: docker.elastic.co/kibana/kibana:7.13.1
-    links:
-      - "elasticsearch"
-    ports:
-      - "5601:5601"
-
+      - "5000:5000"
 
