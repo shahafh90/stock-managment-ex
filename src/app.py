@@ -1,12 +1,31 @@
 from flask import Flask, request, jsonify
 from controller.mongo_wrapper import MongoWrapper
+import logging
 
 app = Flask(__name__)
 mongo = MongoWrapper()  # Singleton ?
 
+# create logger
+logger = logging.getLogger('pyapp')
+logger.setLevel(logging.DEBUG)
+
+# create console handler and set level to debug
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+
+# create formatter
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+# add formatter to ch
+ch.setFormatter(formatter)
+
+# add ch to logger
+logger.addHandler(ch)
+
 
 @app.route("/")
 def hello_stock_app():
+    logger.info('INFO info INFO info INFO info INFO')
     return "Hello Stock App"
 
 
